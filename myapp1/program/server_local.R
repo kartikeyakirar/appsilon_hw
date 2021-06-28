@@ -13,16 +13,14 @@ server <- function(input, output, session) {
         value <- distanceInfo()
         output$distMax <- renderValueBox({
             valueBox(value = round(value$maxDistance),
-                     subtitle = "Max distance",
-                     icon = icon("globe americas"),
-                     color = "yellow",size = "tiny")
+                     subtitle = "Max Sailed(Meters)",
+                     icon = icon("map marked"))
         })
         
         output$totalSailed <- renderValueBox({
             valueBox(value = round(value$total),
-                     subtitle = "Total sailed",
-                     icon = icon("map marked"),
-                     color = "yellow",size = "tiny"
+                     subtitle = "Total sailed (Meters)",
+                     icon = icon("globe americas")
             )
         })
         
@@ -38,8 +36,18 @@ server <- function(input, output, session) {
                                  lat =  ~ LAT,
                                  color = "#444444")
             }
-            
             out
         })
+    })
+    
+    output$panelElements <- renderUI({
+        grid(grid_template = panelGrid,
+             area_styles = list(text = "padding: 10px", widget = "margin: 5px", info1 = "padding-right: 5px",info1 = "padding-left: 5px"),
+             text = div(class = "ui segment",p("App calculates maximum distance sailed by ship for slected vessel type and, plots route on map.")),
+             widget = ship_selection_ui("shipSelection"),
+             info1 = card(style = "border-radius: 0; width: 100%; background: #efefef",
+                          valueBoxOutput("distMax")),
+             info2 = card(style = "border-radius: 0; width: 100%; background: #efefef",
+                          valueBoxOutput("totalSailed")))
     })
 }

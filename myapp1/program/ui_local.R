@@ -4,20 +4,15 @@
 
 # File contains ui layout and widgets
 
-ui = semanticPage(includeCSS("program/www/style.css"),
+ui = semanticPage(includeCSS("style.css"),
                   grid(grid_template = appGrid,
-                       title = div(h3(class="ui primary header", "Demo application"),
-                                   h4(class="ui secondary header", "by kartikeya kirar")),
-                       panel = fluidRow(box(title = "User Selection",
-                                            color = "blue",
-                                            width = 5,
-                                            ship_selection_ui("shipSelection"))),
-                           
-                       map = div(class = "ui raised segment",id = "mapContainer",
-                                 leafletOutput("distMap", width = "100%", height = "100%")
-                                 )
-                       ,
-                       info = fluidRow(valueBoxOutput("distMax",width = 3),
-                                       br(),br(),
-                                       valueBoxOutput("totalSailed",width = 3)))
-)
+                       area_style = list(title = "margin: 20px;", panel = "margin: 20px;", info = "margin: 20px;"),
+                       title = h2(class = "ui header", icon("ship"), div(class = "content", "SeaRouts")),
+                       panel = uiOutput("panelElements"),
+                       map = leafletOutput("distMap", width = "100%", height = "100%"),
+                       info = div(h4(class="ui horizontal divider header",icon("info circle"), "@about"),
+                                  div(class = "ui segment", style = "margin-bottom: 10px","This application is developed by ",br(),
+                                  tags$img(src = "/www/developer.png", class = "ui avatar image"),
+                                  a(herf = "https://www.linkedin.com/in/kartikeyakirar/", "Kartikey kirar"),
+                                  " as part of appsilon assignment. It's built using shiny.semantic and leaflet pacakge"))
+))

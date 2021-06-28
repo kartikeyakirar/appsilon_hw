@@ -27,7 +27,7 @@ g_ships <- g_ships %>% select("LAT", "LON", "SHIPNAME", "DATETIME", "ship_type",
 g_vessels <- unique(g_ships$ship_type)
 g_ships_vessels_dt <- g_ships %>% select(SHIPNAME, ship_type) %>% distinct
 
-
+addResourcePath('www', "program/www/img")
 # sourcing supporting files
 support_dir <- "program/functions/"
 source(paste0(support_dir, "support_functions.R"), local = TRUE)

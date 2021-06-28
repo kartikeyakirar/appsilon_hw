@@ -10,11 +10,14 @@ ship_selection_ui <- function(id) {
     tagList(selectInput(inputId = ns("vesseltype"),
                         label = "Select vessel",
                         choices = g_vessels,
-                        multiple = FALSE),
+                        multiple = FALSE,
+                        width = "100%"),
+            br(),br(),
             selectizeInput(inputId = ns("shipname"),
                            choices = NULL,
-                           label = "Ship Name",
-                           selected = NULL))
+                           label = "Select ship",
+                           selected = NULL,
+                           width = "100%"))
 }
 
 # Server
