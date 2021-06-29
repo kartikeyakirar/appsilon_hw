@@ -3,7 +3,9 @@
 ############################################
 
 #### module function
-
+########################################
+############ support_shipname_module.R##
+########################################
 # UI
 ship_selection_ui <- function(id) {
     ns <- NS(id)
@@ -31,7 +33,8 @@ ship_selection_server <- function (input, output, session) {
                              server = TRUE)
     })
     
-    observeEvent(c(input$shipname, input$vesseltype), {
+    observeEvent(input$shipname, {
+        
         if (!is.null(input$shipname) && input$shipname != "") {
             value(get_sailed_info(g_ships, input$vesseltype, input$shipname))
         }

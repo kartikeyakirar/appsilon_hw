@@ -4,10 +4,10 @@
 
 # File contains ui layout and widgets
 
-ui = semanticPage(includeCSS("style.css"),
+ui = semanticPage(includeCSS("program/www/style.css"),
                   grid(grid_template = appGrid,
                        area_style = list(title = "margin: 20px;", panel = "margin: 20px;", info = "margin: 20px;"),
-                       title = h2(class = "ui header", icon("ship"), div(class = "content", "SeaRouts")),
+                       title = h2(class = "ui header", icon("ship"), div(class = "content", "SeaRoutes")),
                        panel = uiOutput("panelElements"),
                        map = leafletOutput("distMap", width = "100%", height = "100%"),
                        info = div(h4(class="ui horizontal divider header",icon("info circle"), "@about"),

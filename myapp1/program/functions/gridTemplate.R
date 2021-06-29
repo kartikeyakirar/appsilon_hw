@@ -2,6 +2,7 @@
 ############ app grid###################
 ########################################
 
+# application grid
 appGrid <- grid_template(
     default = list(areas = rbind(c("map", "title"),
                                  c("map", "panel"),
@@ -16,6 +17,7 @@ appGrid <- grid_template(
                   cols_width = c("100%"))
 )
 
+# sidepanel grid
 panelGrid <- grid_template(
     default = list(areas = rbind(c("text", "text"),
                                  c("widget", "widget"),

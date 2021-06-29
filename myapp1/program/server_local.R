@@ -12,14 +12,31 @@ server <- function(input, output, session) {
     observeEvent(distanceInfo(), {
         value <- distanceInfo()
         output$distMax <- renderValueBox({
-            valueBox(value = round(value$maxDistance),
-                     subtitle = "Max Sailed(Meters)",
+            # checking if distance is character. (condition if ship is parked)
+            if(is.character(value$maxDistance)) {
+                distVal <- "--"
+                subtitle <- value$maxDistance
+            } else {
+                distVal <- round(value$maxDistance)
+                subtitle <- "Max Sailed(Meters)"
+            }
+            
+            valueBox(value = distVal,
+                     subtitle = subtitle,
                      icon = icon("map marked"))
         })
         
         output$totalSailed <- renderValueBox({
-            valueBox(value = round(value$total),
-                     subtitle = "Total sailed (Meters)",
+            # checking if distance is character.
+            if(is.character(value$total)) {
+                distVal <- "--"
+                subtitle <- value$maxDistance
+            } else {
+                distVal <- round(value$maxDistance)
+                subtitle <- "Total sailed (Meters)"
+            }
+            valueBox(value = distVal,
+                     subtitle = subtitle,
                      icon = icon("globe americas")
             )
         })
@@ -27,7 +44,13 @@ server <- function(input, output, session) {
         output$distMap <- renderLeaflet({
             out <- leaflet()
             cord <- value$cordinates
-            cord$Position <- c("Begin", "End")
+            
+            if(nrow(cord) == 1) {
+                cord$Position <- "Parked"
+            } else {
+                cord$Position <- c("Begin", "End")
+            }
+            
             if (!is.null(value$cordinates)) {
                 out <-leaflet(data = cord,
                               options = leafletOptions(minZoom = 0, maxZoom = 12)) %>% addTiles() %>%

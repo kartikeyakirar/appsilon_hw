@@ -34,22 +34,35 @@ get_sailed_info <- function(dat, vessel, ship) {
     if(!is.null(vessel) && !is.null(ship)){
         # filter data for vessel and shipType
         shipData <- dat %>% 
-            filter(ship_type == vessel & SHIPNAME == ship) %>%
-            add_sailed_distance
+            filter(ship_type == vessel & SHIPNAME == ship) 
         
-        # calculate max distance
-        max_dist <- max(shipData$distanceMeter,na.rm = T)
+        # check if ship is parked
+        if(length(which(shipData$is_parked == 0)) > 2) {
+            shipData <- shipData %>%
+                add_sailed_distance
+            
+            max_dist <- max(shipData$distanceMeter,na.rm = T)
+            
+            # calcculating latest max distance sailed
+            shipData <- shipData %>%
+                mutate(maxDisSailed = (distanceMeter == max_dist))
+            max_dist_ind <- which(shipData$maxDisSailed)[1]
+            
+            # Lat long matrix for max distance
+            geo_cordinate <- shipData %>% select(LON,LAT) %>% slice((max_dist_ind-1):max_dist_ind)
+            total <- sum(shipData$distanceMeter)
+            
+        } else {
+            
+            max_dist <- "Ship is parked"
+            total <- "Ship is parked"
+            # Lat long matrix for max distance
+            geo_cordinate <- shipData %>% select(LON,LAT) %>% slice(nrow(shipData))
+        }
         
-        # calcculating latest max distance sailed
-        shipData <- shipData %>%
-            mutate(maxDisSailed = (distanceMeter == max_dist))
-        max_dist_ind <- which(shipData$maxDisSailed)[1]
-        
-        # Lat long matrix for max distance
-        geo_cordinate <- shipData %>% select(LON,LAT) %>% slice((max_dist_ind-1):max_dist_ind)
         info <- list("maxDistance"= max_dist,
                      "cordinates"= as.data.frame(geo_cordinate),
-                     "total" = sum(shipData$distanceMeter),
+                     "total" = total,
                      "shipdata"= shipData)
     }
     return(info)
