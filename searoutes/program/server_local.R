@@ -21,23 +21,21 @@ server <- function(input, output, session) {
                 subtitle <- "Max Sailed(Meters)"
             }
             
-            valueBox(value = distVal,
-                     subtitle = subtitle,
-                     icon = icon("map marked"))
+            valueBox(value = h3(distFormat(distVal),icon("map marked")),
+                     subtitle = subtitle)
         })
         
         output$totalSailed <- renderValueBox({
             # checking if distance is character.
             if(is.character(value$total)) {
                 distVal <- "--"
-                subtitle <- value$maxDistance
+                subtitle <- value$total
             } else {
-                distVal <- round(value$maxDistance)
+                distVal <- round(value$total)
                 subtitle <- "Total sailed (Meters)"
             }
-            valueBox(value = distVal,
-                     subtitle = subtitle,
-                     icon = icon("globe americas")
+            valueBox(value = h3(distFormat(distVal),icon("globe americas")),
+                     subtitle = subtitle
             )
         })
         
@@ -66,7 +64,7 @@ server <- function(input, output, session) {
     output$panelElements <- renderUI({
         grid(grid_template = panelGrid,
              area_styles = list(text = "padding: 10px", widget = "margin: 5px", info1 = "padding-right: 5px",info1 = "padding-left: 5px"),
-             text = div(class = "ui segment",p("App calculates maximum distance sailed by ship for slected vessel type and, plots route on map.")),
+             text = div(class = "ui segment",p("App calculates maximum distance sailed by ship for selected vessel type and, plots the cordinate of ship's begin and end points on map.")),
              widget = ship_selection_ui("shipSelection"),
              info1 = card(style = "border-radius: 0; width: 100%; background: #efefef",
                           valueBoxOutput("distMax")),

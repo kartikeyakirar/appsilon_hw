@@ -67,3 +67,12 @@ get_sailed_info <- function(dat, vessel, ship) {
     }
     return(info)
 }
+
+# Format distance value 
+distFormat <- function(dist) {
+    if(!is.character(dist)) {
+        dist <- formatC(round(dist), format="f", big.mark=",", digits=1)
+    }
+    
+    return(dist)
+}
